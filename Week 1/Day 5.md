@@ -33,7 +33,7 @@ metadata={
 )
 ```
 
-📸 **Screenshot:** Document loading output
+![Document loading output](images/pdf_loader.png)
 
 ---
 
@@ -87,7 +87,7 @@ Number of Chunks : 11
 
 Chunk overlap helps preserve context when a sentence is split between two chunks.
 
-📸 **Screenshot:** Number of pages and chunks
+![ Number of pages and chunks](images/chunking.png)
 
 ---
 
@@ -121,7 +121,8 @@ vector = embeddings.embed_query(chunks[0].page_content)
 
 Each document chunk is converted into a **3072-dimensional vector**, allowing the vector database to compare semantic meaning instead of keywords.
 
-📸 **Screenshot:** Embedding output (`3072`)
+
+![ Embedding output](images/embedding.png)
 
 ---
 
@@ -157,7 +158,8 @@ ChromaDB stores:
 
 This enables fast semantic retrieval without rebuilding embeddings every time.
 
-📸 **Screenshot:** `chroma_db` folder with `chroma.sqlite3`
+
+![ Chroma DB](images/database.png)
 
 ---
 
@@ -222,7 +224,7 @@ Eligible female employees are entitled to 26 weeks of fully paid maternity leave
 
 This confirmed that the complete Retrieval-Augmented Generation pipeline was functioning correctly.
 
-📸 **Screenshot:** Final chatbot output
+![ Final chatbot output](images/final.png)
 
 ---
 
