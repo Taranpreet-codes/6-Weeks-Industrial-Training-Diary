@@ -146,21 +146,6 @@ Successfully understood the complete workflow of using Google AI Studio and inte
 
 ---
 
-# Screenshots
-
-> Add the following screenshots here:
-
-* Google AI Studio Dashboard
-* API Key Generation
-* Gemini AI Playground Interface
-* Flash Model Output
-* Pro Model Output
-* Temperature Comparison (0.0 vs 1.0)
-* Token Usage in Google AI Studio
-* Long Prompt / Context Window Demonstration
-
----
-
 # Reflection
 
 Today's session strengthened my understanding of the practical workflow of working with Large Language Models using Google's Gemini platform. Along with learning the theoretical concepts, implementing the Gemini AI Playground helped me connect these concepts with real-world development practices. This hands-on experience improved my understanding of API integration, model selection, hyperparameter tuning, and prompt-based AI application development.
