@@ -1,350 +1,39 @@
-# Day 2 – Prompt Engineering Fundamentals
+# Day 2 - Introduction to Artificial Intelligence, Machine Learning & Deep Learning
 
-**Training Program:** AI/ML Internship (6 Weeks)
+## Date
 
-**Week:** 1
+2 June 2026
 
-**Day:** 2
+## Topics Covered
 
-**Topic Covered:** Prompt Engineering and Modern LLM Prompting Techniques
+- Artificial Intelligence (AI)
+- Machine Learning (ML)
+- Deep Learning (DL)
+- Relationship between AI, ML, and DL
+- Real-World Applications of AI
 
-**Date:** *(Add today's training date)*
+## Learning Summary
 
----
+On the second day of the training, our mentor began the technical sessions by introducing the core concepts of Artificial Intelligence (AI). We learned that Artificial Intelligence is a branch of computer science focused on developing systems capable of performing tasks that normally require human intelligence, such as learning, reasoning, problem-solving, decision-making, and language understanding.
 
-# Objective
+The mentor explained how AI has become an integral part of our daily lives through applications like virtual assistants, recommendation systems, autonomous vehicles, healthcare diagnostics, fraud detection, and smart automation. Various examples were discussed to help us understand the practical impact of AI across different industries.
 
-The objective of today's session was to understand Prompt Engineering, modern prompting techniques, Retrieval-Augmented Generation (RAG), Graph RAG, Prompt Caching, Prompt Versioning, Tool Calling, and the semantic definition of tools. These concepts form the foundation of developing production-grade AI applications using Large Language Models (LLMs).
+The session then moved to Machine Learning (ML), a subset of Artificial Intelligence that enables computers to learn patterns from historical data without being explicitly programmed. We studied how machine learning models are trained using datasets and gradually improve their accuracy through experience. The mentor also explained the different learning approaches, including supervised learning, unsupervised learning, and reinforcement learning, along with their practical use cases.
 
----
+Next, we explored Deep Learning (DL), which is a specialized branch of Machine Learning that uses artificial neural networks with multiple hidden layers. The mentor demonstrated how deep learning models automatically extract features from complex datasets and achieve remarkable performance in applications such as image recognition, speech processing, natural language processing, and computer vision.
 
-# 1. What is Prompt Engineering?
+We also discussed the relationship between AI, ML, and DL. It became clear that Artificial Intelligence is the broadest field, Machine Learning is a subset of AI, and Deep Learning is a specialized subset of Machine Learning. This hierarchical relationship helped us understand how these technologies are connected and complement one another.
 
-Prompt Engineering is the process of designing, structuring, testing, and optimizing prompts so that Large Language Models (LLMs) generate accurate, reliable, and context-aware responses.
+Throughout the session, the mentor emphasized the importance of building strong foundational knowledge before moving toward advanced concepts like Generative AI and Large Language Models, which would be covered in the upcoming sessions.
 
-Unlike simply asking questions to an AI chatbot, Prompt Engineering involves carefully controlling the instructions, context, constraints, examples, and desired output format to improve response quality.
+## Key Takeaways
 
-### Key Objectives
+- Artificial Intelligence enables machines to simulate human intelligence.
+- Machine Learning allows systems to learn from data without explicit programming.
+- Deep Learning uses multi-layered neural networks to solve complex problems.
+- AI, ML, and DL have a hierarchical relationship where each builds upon the previous technology.
+- Strong fundamentals in AI are essential for understanding modern Generative AI technologies.
 
-* Improve response accuracy
-* Reduce hallucinations
-* Control output format
-* Improve reasoning capability
-* Increase consistency
-* Optimize cost and latency
+## Outcome
 
----
-
-# 2. Anatomy of a Professional Prompt
-
-A well-designed prompt generally consists of the following components:
-
-## Role
-
-Defines the identity of the model.
-
-Example:
-
-"You are a Senior AI Engineer."
-
----
-
-## Task
-
-Clearly specifies what needs to be accomplished.
-
-Example:
-
-"Explain the Transformer Architecture."
-
----
-
-## Context
-
-Provides additional background information.
-
-Example:
-
-"Explain it to first-year engineering students."
-
----
-
-## Constraints
-
-Specifies limitations.
-
-Examples:
-
-* Maximum 300 words
-* Use simple English
-* Avoid mathematical equations
-
----
-
-## Examples (Few-Shot Learning)
-
-Providing sample inputs and outputs helps the model understand the expected response pattern.
-
----
-
-## Output Format
-
-Defines how the response should be structured.
-
-Examples:
-
-* Bullet points
-* JSON
-* Markdown
-* Tables
-
----
-
-# 3. Prompting Techniques
-
-## Zero-Shot Prompting
-
-The model receives only the instruction without any examples.
-
-Suitable for simple and straightforward tasks.
-
----
-
-## One-Shot Prompting
-
-One example is provided before asking the actual question.
-
-This improves consistency.
-
----
-
-## Few-Shot Prompting
-
-Multiple examples are provided.
-
-Useful for:
-
-* Classification
-* Information extraction
-* Structured generation
-* Style consistency
-
----
-
-## Role Prompting
-
-Assigning a professional identity improves domain-specific responses.
-
-Example:
-
-"You are an experienced Data Scientist."
-
----
-
-## Chain of Thought (CoT)
-
-The model is encouraged to reason step-by-step before generating the final answer.
-
-Benefits:
-
-* Better logical reasoning
-* Improved mathematical accuracy
-* Better planning
-* More reliable problem solving
-
----
-
-## Self-Consistency
-
-The model generates multiple reasoning paths and selects the most consistent answer.
-
-This improves reasoning reliability.
-
----
-
-## Tree of Thoughts (ToT)
-
-Instead of following a single reasoning path, the model explores multiple possible solution branches before selecting the optimal one.
-
-Useful for:
-
-* Planning
-* Strategic decision-making
-* Complex reasoning
-
----
-
-## Least-to-Most Prompting
-
-A complex task is decomposed into multiple simpler subtasks.
-
-This reduces reasoning complexity.
-
----
-
-## Skeleton Prompting
-
-The model first generates an outline and then expands each section into detailed content.
-
-Useful for:
-
-* Reports
-* Documentation
-* Research papers
-
----
-
-# 4. Context Engineering
-
-Modern AI systems rely on Context Engineering rather than Prompt Engineering alone.
-
-The model's context includes:
-
-* System Prompt
-* Developer Instructions
-* User Prompt
-* Conversation History
-* Memory
-* Retrieved Documents
-* Tool Definitions
-
-Effective Context Engineering ensures that only the most relevant information is supplied to the model.
-
----
-
-# 5. Retrieval-Augmented Generation (RAG)
-
-RAG enables an LLM to retrieve external knowledge before generating a response.
-
-Workflow:
-
-User Query → Embedding Model → Vector Database → Relevant Documents → LLM → Final Response
-
-### Components
-
-* Document Collection
-* Chunking
-* Embedding Model
-* Vector Database
-* Similarity Search
-* Retriever
-* Generator (LLM)
-
-Advantages:
-
-* Access to up-to-date information
-* Reduced hallucinations
-* Improved factual accuracy
-
----
-
-# 6. Graph RAG
-
-Graph RAG extends traditional RAG by retrieving relationships instead of isolated document chunks.
-
-Knowledge is represented as a graph where:
-
-Nodes → Entities
-
-Edges → Relationships
-
-Advantages:
-
-* Multi-hop reasoning
-* Better enterprise knowledge retrieval
-* Improved explainability
-* Better handling of connected information
-
----
-
-# 7. Prompt Caching
-
-Prompt Caching stores previously processed prompt prefixes.
-
-Instead of recomputing the same long instructions repeatedly, the cached portion is reused.
-
-Benefits:
-
-* Lower latency
-* Reduced inference cost
-* Faster response generation
-
----
-
-# 8. Prompt Versioning
-
-Prompt Versioning tracks changes made to prompts during development.
-
-Example:
-
-v1.0 → Initial Prompt
-
-v1.1 → Added Constraints
-
-v2.0 → Added JSON Output
-
-v2.1 → Integrated RAG
-
-Importance:
-
-* Easier debugging
-* Experiment tracking
-* Rollback capability
-* Better collaboration
-
----
-
-# 9. Tool Calling
-
-Modern LLMs can invoke external tools whenever required.
-
-Examples:
-
-* Weather APIs
-* Databases
-* Search Engines
-* Calculators
-* File Systems
-
-The model first decides whether a tool is required, executes the tool, receives the output, and then generates the final response.
-
----
-
-# 10. Semantic Definition of Tools
-
-Tool definitions describe not only how to call a tool but also when and why it should be used.
-
-A good tool definition includes:
-
-* Tool Name
-* Purpose
-* Description
-* Input Schema
-* Output Schema
-* Usage Conditions
-* Restrictions
-* Error Handling
-
-Semantic descriptions help the model choose the correct tool intelligently.
-
----
-
-# Key Learnings
-
-* Prompt Engineering is much more than writing questions.
-* Professional prompts include role, task, context, constraints, examples, and output format.
-* Advanced prompting techniques improve reasoning quality.
-* Context Engineering is becoming more important than Prompt Engineering alone.
-* RAG enables LLMs to retrieve external information dynamically.
-* Graph RAG enhances retrieval by utilizing relationships between entities.
-* Prompt Caching improves efficiency by reusing repeated prompt prefixes.
-* Prompt Versioning supports systematic prompt management.
-* Tool Calling allows LLMs to interact with external systems.
-* Semantic tool definitions improve tool selection and execution.
-
----
-
-# Conclusion
-
-Today's session provided a comprehensive understanding of Prompt Engineering and modern LLM workflows. I learned how structured prompts, retrieval systems, context management, and intelligent tool usage contribute to building reliable and production-ready AI applications. These concepts are fundamental for developing AI-powered assistants, chatbots, enterprise search systems, and agentic AI solutions.
-
+By the end of the second day, I developed a solid understanding of Artificial Intelligence, Machine Learning, and Deep Learning. I learned how these technologies differ, how they are interconnected, and how they are applied in solving real-world problems across various domains. This session established the conceptual foundation required for learning advanced AI topics in the following days.
