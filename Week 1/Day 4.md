@@ -1,123 +1,44 @@
-# Day 4: Understanding LLM Fundamentals and RAG Concepts
+# Day 4 - Agentic AI, Retrieval-Augmented Generation (RAG) & Vector Databases
 
-## Overview
+## Date
 
-Today's learning focused on the core concepts behind Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG). Instead of directly jumping into implementation, I studied the theoretical foundations required to build reliable LLM-powered applications. The session covered how LLMs process information, their limitations, why hallucinations occur, how semantic search works using embeddings, and the difference between Fine-Tuning and RAG.
-
----
+25 June 2026
 
 ## Topics Covered
 
-### 1. Tokens and Tokenization
+- Introduction to Agentic AI
+- AI Agents and Their Capabilities
+- Retrieval-Augmented Generation (RAG)
+- Semantic Search
+- Vector Embeddings
+- Vector Databases
+- Real-World Applications of RAG Systems
 
-* Learned that LLMs do not read complete words; they process text as **tokens**, which are smaller units of text.
-* Understood the role of a **tokenizer**, which converts human-readable text into tokens before sending it to the model.
-* Explored how token count affects:
+## Learning Summary
 
-  * API pricing
-  * Response latency
-  * Context window utilization
-* Learned that LLMs generate responses by predicting **one token at a time**.
+On the fourth day of the training, our mentor introduced us to **Agentic AI**, one of the most advanced concepts in modern Artificial Intelligence. Unlike traditional AI systems that only respond to user inputs, Agentic AI is capable of planning tasks, making decisions, utilizing external tools, and completing multi-step objectives with minimal human intervention.
 
-**Key Learning:**
-Tokens are the fundamental units processed by LLMs, and understanding them is essential for optimizing prompts and designing efficient AI applications.
+The mentor explained that AI agents can understand goals, break them into smaller tasks, retrieve relevant information, execute actions, and continuously improve their responses based on feedback. Several real-world examples of AI agents used in customer support, software development, workflow automation, and research assistance were discussed.
 
----
+The session then focused on **Retrieval-Augmented Generation (RAG)**. We learned that although Large Language Models possess extensive knowledge, they may not always have access to the latest or organization-specific information. RAG addresses this limitation by retrieving relevant information from external knowledge sources before generating a response.
 
-### 2. Context Window
+The mentor demonstrated the workflow of a RAG system, where a user's query is converted into vector embeddings, relevant documents are retrieved from a vector database using semantic similarity, and the retrieved information is supplied to the language model to generate accurate and context-aware responses.
 
-* Studied the concept of a **context window**, which represents the maximum number of tokens an LLM can process in a single interaction.
-* Learned that the context window includes:
+Another important concept introduced today was **Semantic Search**. Unlike traditional keyword-based search, semantic search focuses on understanding the meaning and context of a user's query. This allows AI systems to retrieve information based on similarity in meaning rather than exact word matches, resulting in more relevant search results.
 
-  * System prompts
-  * Conversation history
-  * User queries
-  * Retrieved documents
-  * Model-generated responses
-* Understood why large document collections cannot be directly provided to an LLM due to context window limitations.
+We also studied **Vector Embeddings** and **Vector Databases**, which are fundamental components of RAG systems. The mentor explained that text, images, and other forms of data can be converted into numerical vectors that capture their semantic meaning. These vectors are stored in specialized vector databases, enabling rapid similarity searches across large datasets.
 
-**Key Learning:**
-The context window acts as the model's temporary working memory, making efficient information retrieval necessary.
+Throughout the session, practical use cases demonstrated how RAG-powered AI assistants improve accuracy by combining the reasoning capabilities of Large Language Models with up-to-date external knowledge. Examples included enterprise chatbots, document question-answering systems, legal research assistants, healthcare knowledge systems, and intelligent customer support platforms.
 
----
+## Key Takeaways
 
-### 3. Hallucinations in LLMs
+- Agentic AI enables intelligent agents to plan, reason, and perform multi-step tasks autonomously.
+- Retrieval-Augmented Generation (RAG) enhances LLM responses by retrieving relevant external information.
+- Semantic Search retrieves information based on contextual meaning instead of exact keywords.
+- Vector Embeddings represent data numerically while preserving semantic relationships.
+- Vector Databases efficiently store and retrieve embeddings for similarity-based search.
+- RAG significantly improves the accuracy, reliability, and relevance of AI-generated responses.
 
-* Learned that hallucinations are generated when an LLM produces information that is unsupported or factually incorrect.
-* Understood that hallucinations occur because LLMs are probabilistic next-token predictors rather than databases containing verified facts.
-* Explored common causes of hallucinations:
+## Outcome
 
-  * Missing or outdated knowledge
-  * Insufficient context
-  * Ambiguous prompts
-  * Lack of grounding information
-* Learned how grounding the model with external documents significantly reduces hallucinations.
-
-**Key Learning:**
-LLMs do not intentionally "lie"; they predict the most probable continuation based on available context and learned patterns.
-
----
-
-### 4. Embeddings
-
-* Learned that embeddings convert text into high-dimensional numerical vectors that capture semantic meaning.
-* Understood how semantically similar sentences generate vectors located close to one another in vector space.
-* Explored the concept of **semantic search**, where retrieval is based on meaning instead of exact keyword matching.
-* Studied the role of embeddings in retrieving relevant document chunks for RAG applications.
-
-**Key Learning:**
-Embeddings enable intelligent document retrieval by understanding semantic similarity rather than relying on exact keyword matches.
-
----
-
-### 5. Fine-Tuning vs Retrieval-Augmented Generation (RAG)
-
-Compared two common approaches for improving LLM performance:
-
-**Fine-Tuning**
-
-* Updates the model's internal weights.
-* Best suited for modifying behavior, writing style, or domain-specific expertise.
-* Requires additional training and computational resources.
-
-**Retrieval-Augmented Generation (RAG)**
-
-* Does not modify model weights.
-* Retrieves relevant external documents at inference time.
-* Ideal for applications requiring access to dynamic or frequently updated information.
-
-**Key Learning:**
-Fine-Tuning teaches the model new behavior, whereas RAG supplies external knowledge during inference without retraining the model.
-
----
-
-## Conceptual Understanding of the RAG Pipeline
-
-Studied the high-level workflow of a Retrieval-Augmented Generation system:
-
-1. User submits a query.
-2. Query is converted into an embedding.
-3. Similar document embeddings are searched within a vector database.
-4. Relevant document chunks are retrieved.
-5. Retrieved information is inserted into the model's context window.
-6. The LLM generates a grounded response using both the user query and retrieved context.
-
-This workflow demonstrates how RAG enables LLMs to answer questions using up-to-date external knowledge while minimizing hallucinations.
-
----
-
-## Reflection
-
-Today's session strengthened my understanding of the fundamental concepts required before implementing a RAG pipeline. I now understand how tokenization, context windows, hallucinations, embeddings, and retrieval work together to enable reliable LLM applications. This conceptual foundation will be valuable when building practical RAG systems using vector databases and embedding models in upcoming sessions.
-
----
-
-## Next Learning Goals
-
-* Document Chunking Strategies
-* Embedding Model Selection
-* Vector Databases (FAISS, ChromaDB, Pinecone)
-* Similarity Search (Cosine Similarity)
-* Building an End-to-End RAG Pipeline using Python
-* Integrating LLM APIs with Retrieval Systems
-
+By the end of the fourth day, I developed a clear understanding of Agentic AI, Retrieval-Augmented Generation (RAG), Semantic Search, and Vector Databases. I learned how these technologies work together to build intelligent AI applications capable of accessing external knowledge and generating more accurate, context-aware responses.
