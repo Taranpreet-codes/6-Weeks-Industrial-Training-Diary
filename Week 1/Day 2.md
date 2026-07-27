@@ -2,7 +2,7 @@
 
 ## Date
 
-2 June 2026
+23 June 2026
 
 ## Topics Covered
 
