@@ -1,151 +1,44 @@
-# Day 03 – Google AI Studio & Gemini API Fundamentals
+# Day 3 - Generative AI, Large Language Models & Transformer Architecture
 
-## Objective
+## Date
 
-The objective of today's learning was to understand the fundamentals of Google AI Studio, explore the Gemini Developer API, learn how to securely authenticate applications using API keys, understand the Gemini model family, and study important LLM concepts such as Temperature, Tokens, and Context Window. The day concluded with the implementation of a small hands-on project called **Gemini AI Playground**.
+24 June 2026
 
----
+## Topics Covered
 
-# Topics Covered
+- Introduction to Generative AI
+- Traditional AI vs Generative AI
+- Large Language Models (LLMs)
+- Popular LLMs (ChatGPT, Gemini, Claude, Llama)
+- Transformer Architecture
+- Self-Attention Mechanism
+- Applications of LLMs
 
-## 1. Google AI Studio
+## Learning Summary
 
-* Learned the purpose of Google AI Studio as a development environment for experimenting with Gemini models.
-* Explored the dashboard, prompt playground, model selection panel, API key management, and usage monitoring.
-* Understood how Google AI Studio acts as a bridge between developers and Gemini models.
+On the third day of the training, our mentor introduced us to the rapidly evolving field of **Generative Artificial Intelligence (Generative AI)**. We learned how Generative AI differs from traditional Artificial Intelligence by creating entirely new content instead of simply analyzing existing data or making predictions.
 
-### Key Learning
+The mentor explained that Generative AI models learn patterns from massive datasets and use this knowledge to generate human-like text, images, audio, videos, and even source code. Various real-world applications were discussed, including AI chatbots, content generation, software development, image creation, document summarization, translation, and virtual assistants.
 
-Google AI Studio is a prototyping environment that allows developers to test prompts, configure model parameters, and generate API code before integrating AI into real-world applications.
+The session then focused on **Large Language Models (LLMs)**. We learned that LLMs are advanced deep learning models trained on billions of words collected from books, articles, websites, and other text sources. These models are capable of understanding natural language, generating meaningful responses, answering questions, summarizing documents, translating languages, and assisting developers in writing code.
 
----
+Our mentor introduced several widely used LLMs, including **ChatGPT**, **Gemini**, **Claude**, and **Llama**, while explaining their capabilities and the growing role they play in modern AI-powered applications.
 
-## 2. Gemini API & API Keys
+A significant part of today's session was dedicated to understanding the **Transformer Architecture**, which serves as the foundation of modern Large Language Models. We studied how transformers process text efficiently using the **Self-Attention Mechanism**, enabling the model to understand relationships between words regardless of their position within a sentence.
 
-* Generated a Gemini API key.
-* Learned how API authentication works.
-* Understood the importance of keeping API keys private.
-* Stored the API key securely using a `.env` file instead of hardcoding it.
+The mentor also explained why Transformer models are more powerful than traditional sequential neural networks, as they can process multiple words simultaneously, resulting in faster training and improved contextual understanding.
 
-### Key Learning
+Throughout the session, practical examples demonstrated how transformer-based models are used in conversational AI, intelligent search systems, code assistants, recommendation systems, and enterprise AI solutions.
 
-An API key identifies the project making requests to the Gemini API. It enables authentication, quota management, and usage tracking.
+## Key Takeaways
 
----
+- Generative AI creates new content instead of only analyzing existing information.
+- Large Language Models are trained on massive text datasets to understand and generate human language.
+- Popular LLMs include ChatGPT, Gemini, Claude, and Llama.
+- Transformer Architecture is the core technology behind modern LLMs.
+- The Self-Attention Mechanism enables models to understand contextual relationships between words efficiently.
+- LLMs are widely used in chatbots, content generation, translation, summarization, and software development.
 
-## 3. Gemini Models
+## Outcome
 
-Studied the Gemini model family and compared their capabilities.
-
-### Gemini Flash
-
-* Optimized for speed
-* Low latency
-* Cost-efficient
-* Suitable for chatbots, summarization, translation, and high-volume applications
-
-### Gemini Pro
-
-* Optimized for advanced reasoning
-* Better for coding assistance
-* Suitable for research, document analysis, and complex problem-solving
-
-### Key Learning
-
-Choosing the right model depends on balancing response quality, latency, and cost based on the application's requirements.
-
----
-
-## 4. Temperature
-
-Learned how the Temperature hyperparameter controls the randomness of model outputs.
-
-### Observations
-
-* Low Temperature (0.0–0.2): More deterministic and consistent responses.
-* Medium Temperature (0.5): Balanced responses.
-* High Temperature (1.0+): More creative and diverse responses.
-
-### Key Learning
-
-Temperature does not increase the intelligence of the model. It only affects how the next token is selected during response generation.
-
----
-
-## 5. Tokens
-
-Studied how Large Language Models process text.
-
-### Learned
-
-* Difference between characters, words, and tokens.
-* Input Tokens vs Output Tokens.
-* Token-based billing.
-* Importance of writing concise prompts.
-
-### Key Learning
-
-Tokens are the fundamental units processed by LLMs, and both prompt size and generated responses contribute to token usage.
-
----
-
-## 6. Context Window
-
-Learned about the working memory of Large Language Models.
-
-### Learned
-
-* Context Window stores the information available to the model during inference.
-* Large context windows enable analysis of lengthy documents and extended conversations.
-* Exceeding the context window requires reducing the input or using retrieval techniques.
-
-### Key Learning
-
-Efficient context management is essential for building scalable AI applications.
-
----
-
-# Hands-on Project
-
-## Project Title
-
-**Gemini AI Playground**
-
-### Features Implemented
-
-* Integrated Gemini API using Python.
-* Secure API key management with `.env`.
-* Model selection (Flash / Pro).
-* Adjustable Temperature.
-* Prompt input and response generation.
-* Compared outputs using different models and temperature values.
-
-### Skills Demonstrated
-
-* Google AI Studio
-* Gemini Developer API
-* Python SDK Integration
-* Prompt Engineering Basics
-* API Authentication
-* Hyperparameter Configuration
-
----
-
-# Challenges Faced
-
-* Understanding the role of API keys in authentication.
-* Differentiating between Gemini Flash and Gemini Pro.
-* Clarifying the effect of Temperature on response generation.
-* Understanding the relationship between Tokens and Context Window.
-
----
-
-# Outcome
-
-Successfully understood the complete workflow of using Google AI Studio and integrated the Gemini API into a Python application. Gained practical experience in selecting appropriate models, configuring inference parameters, and understanding token-based processing in Large Language Models.
-
----
-
-# Reflection
-
-Today's session strengthened my understanding of the practical workflow of working with Large Language Models using Google's Gemini platform. Along with learning the theoretical concepts, implementing the Gemini AI Playground helped me connect these concepts with real-world development practices. This hands-on experience improved my understanding of API integration, model selection, hyperparameter tuning, and prompt-based AI application development.
+By the end of the third day, I gained a comprehensive understanding of Generative AI, Large Language Models, and Transformer Architecture. I learned how these technologies work together to power modern AI applications and understood why transformer-based models have become the foundation of today's intelligent systems.
