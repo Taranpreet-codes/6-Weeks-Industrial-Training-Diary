@@ -1,4 +1,4 @@
-# Day 16 - Core Architecture, Data Modeling & Authentication
+# Day 16 - System Architecture, Clinical Domain Modeling & Secure Authentication
 
 ## Date
 
@@ -6,283 +6,317 @@
 
 ## Topics Covered
 
-- Project Architecture
-- Django Backend Setup
-- Patient Data Modeling
+- MedGuardian System Architecture
+- Django Backend Scaffolding
+- Django REST Framework
+- Clinical Domain Modeling
+- Patient Profile
 - Medication Cabinet
 - Safety Assessment History
 - Proactive Alerts
+- Renal Biomarkers
 - JWT Authentication
 - User Data Isolation
-- Backend Structure
+- Cockcroft-Gault Renal Clearance
+- Database Migration
 - Challenges Faced
-- Core Backend Foundation
 
 ## Learning Summary
 
-On the sixteenth day of the training, the focus was on establishing the **core backend architecture of the MedGuardian AI project**. Before implementing advanced AI and clinical intelligence features, it was important to create a structured backend capable of securely managing patient information, medications, safety assessments, and alerts.
+On the sixteenth day of the training, we started the core backend engineering work for the **MedGuardian AI Proactive Medication Digital Twin**.
 
-The backend was developed using **Django and Django REST Framework (DRF)**. The project was organized into separate modules so that different responsibilities could be maintained independently.
+The main objective of the day was to establish the foundational backend architecture and create the relational data models required to represent patients, medications, clinical safety assessments, and proactive alerts.
 
-The main objective of this stage was to create a reliable foundation for the later **Medication Digital Twin** workflow.
+The backend was developed using **Django 4.2 and Django REST Framework**, with the architecture divided into separate applications according to their responsibilities.
 
-### Backend Architecture
+### Repository and Backend Scaffolding
 
-```text
-                    MedGuardian AI
-                          │
-                          ▼
-                 Django REST Backend
-                          │
-          ┌───────────────┼───────────────┐
-          ▼               ▼               ▼
-      Accounts         Patients       Medications
-          │               │               │
-          └───────────────┼───────────────┘
-                          ▼
-                 Safety Assessment
-                          │
-              ┌───────────┴───────────┐
-              ▼                       ▼
-          History                  Alerts
-```
-
----
-
-The first step was to create the basic Django project structure and divide the backend into logical applications.
-
-### Project Structure
+The Django backend was organized into modular domain applications:
 
 ```text
-MedGuardian/
+MedGuardian_AI/
 │
-├── accounts/
-├── patients/
-├── prescriptions/
-├── reports/
-├── services/
-│
-├── manage.py
-└── requirements.txt
+└── backend/
+    ├── accounts/
+    ├── patients/
+    ├── services/
+    ├── prescriptions/
+    ├── reports/
+    ├── medguardian/
+    └── manage.py
 ```
 
-Separating the application into modules makes the project easier to understand, maintain, and extend as new healthcare and AI features are added.
+The major responsibilities were separated into different applications instead of placing the complete system inside a single Django app.
 
----
+Environment configuration was also separated using `python-dotenv` so that sensitive information such as API keys, database URLs, and Celery broker credentials could be managed through environment variables.
 
-## Patient Profile Modeling
+### Clinical Domain Modeling
 
-A central component of the system was the **PatientProfile** model.
+The most important implementation work was performed in `patients/models.py`.
 
-The model was designed to store important patient and clinical information that can influence medication safety.
+Four major entities were designed:
 
-Some of the important parameters include:
+- `PatientProfile`
+- `MedicationCabinet`
+- `SafetyAssessmentHistory`
+- `ProactiveAlert`
 
-```text
-Age
-Gender
-Weight
-eGFR
-Serum Creatinine
-ALT / AST
-Allergies
-Chronic Conditions
-Pregnancy Status
-Lactation Status
+These models form the core clinical data layer of the application.
+
+### Patient Profile
+
+The `PatientProfile` model was designed to store both basic patient information and clinically relevant parameters.
+
+The model includes:
+
+- Name
+- Age
+- Gender
+- Weight
+- Serum creatinine
+- eGFR
+- Allergies
+- Chronic conditions
+- Pregnancy status
+- Other clinical information
+
+A simplified implementation was:
+
+```python
+class PatientProfile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+
+    name = models.CharField(max_length=255)
+
+    age = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(125)
+        ]
+    )
+
+    gender = models.CharField(
+        max_length=20,
+        choices=[
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other')
+        ]
+    )
+
+    creatinine = models.FloatField(
+        null=True,
+        blank=True
+    )
+
+    egfr = models.FloatField(
+        null=True,
+        blank=True
+    )
+
+    allergies = models.JSONField(
+        default=list,
+        blank=True
+    )
+
+    chronic_conditions = models.JSONField(
+        default=list,
+        blank=True
+    )
+
+    is_pregnant = models.BooleanField(
+        default=False
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
 ```
 
-These parameters are important because medication safety depends not only on the drug itself but also on the patient's current clinical condition.
+The model was intentionally designed to allow some clinical measurements to be optional because a patient may not always have recent laboratory results.
 
-For example, changes in renal function may affect how certain medications should be evaluated.
+### Renal Function and Cockcroft-Gault Calculation
 
-### Patient Data Flow
+Since renal function is important for medication safety, the patient model also included a renal clearance calculation.
 
-```text
-Patient Information
-        │
-        ▼
-PatientProfile
-        │
-        ├── Demographics
-        ├── Clinical Parameters
-        ├── Allergies
-        ├── Conditions
-        └── Pregnancy/Lactation
+When eGFR was unavailable but sufficient information such as age, weight, creatinine, and gender was available, the system could estimate creatinine clearance using the **Cockcroft-Gault equation**.
+
+```python
+@property
+def estimated_crcl(self):
+    """Cockcroft-Gault Equation estimation if eGFR is missing."""
+
+    if self.creatinine and self.age and self.weight_kg:
+        constant = (
+            0.85
+            if self.gender.lower() == 'female'
+            else 1.0
+        )
+
+        return round(
+            ((140 - self.age) * self.weight_kg /
+             (72 * self.creatinine)) * constant,
+            2
+        )
+
+    return self.egfr
 ```
 
----
+This provided a fallback mechanism when laboratory information was incomplete.
 
-## Medication Cabinet
+### Medication Cabinet
 
-A **MedicationCabinet** model was also introduced to maintain the patient's active medications.
+The `MedicationCabinet` model was designed to maintain the patient's active medication regimen.
 
-The medication cabinet stores information such as:
+It tracks information such as:
 
 - Medication name
-- Dosage
-- Frequency
+- Brand name
+- Generic name
+- Dosage strength
 - Administration route
-- Active/discontinued status
-- Prescribing information
+- Active or discontinued status
+- Prescribing clinician
 
-The purpose of this component is to maintain a continuously updated representation of the medications currently associated with a patient.
-
-This later becomes an important part of the **Medication Digital Twin** concept.
-
-### Medication Cabinet Flow
+This creates a structured medication record that can later be used by the clinical safety engine.
 
 ```text
-Prescription / Manual Entry
-            │
-            ▼
-     Medication Cabinet
-            │
-      ┌─────┴─────┐
-      ▼           ▼
-   Active     Discontinued
- Medication    Medication
+Patient
+   │
+   ├── Clinical Profile
+   │      ├── Age
+   │      ├── eGFR
+   │      ├── Creatinine
+   │      ├── Allergies
+   │      └── Conditions
+   │
+   └── Medication Cabinet
+          ├── Medication A
+          ├── Medication B
+          └── Medication C
 ```
 
----
+### Safety Assessment History
 
-## Safety Assessment History
+The `SafetyAssessmentHistory` model was introduced to maintain a historical record of clinical safety evaluations.
 
-Another important part of the backend was maintaining a history of previous medication safety evaluations.
+It stores information such as:
 
-Instead of storing only the latest result, the system records historical assessments.
+- Risk score
+- Risk level
+- Flagged contraindications
+- Clinical rationale
+- Historical assessment information
 
-The risk levels were organized as:
+The risk levels were structured as:
 
 ```text
 Safe
-  ↓
+  │
+  ▼
 Low
-  ↓
+  │
+  ▼
 Moderate
-  ↓
+  │
+  ▼
 Severe
 ```
 
-Maintaining historical assessments is useful because the system can later compare a patient's current risk with previous evaluations and identify whether their overall safety status has changed.
+This historical structure would later support the risk timeline and proactive alerting features of the system.
 
----
+### Proactive Alerts
 
-## Proactive Alerts
+The `ProactiveAlert` model was designed to store safety alerts generated by the clinical engine.
 
-The `ProactiveAlert` model was introduced to store important safety notifications.
+The alert system supports categories such as:
 
-These alerts can later be generated when the system identifies a meaningful deterioration in the patient's medication safety profile.
+- Drug-drug interaction
+- Allergy
+- Organ impairment
 
-The basic concept is:
+It also maintains alert state and acknowledgment information so that users can distinguish between new and already-reviewed alerts.
 
-```text
-Patient / Medication Change
-            │
-            ▼
-      Safety Evaluation
-            │
-            ▼
-      Risk Assessment
-            │
-            ▼
-      Proactive Alert
-```
+### JWT Authentication and User Isolation
 
-This architecture prepares the project for the event-driven alerting system that will be implemented in the upcoming stages.
+Security was another major part of the day's implementation.
 
----
+JWT-based authentication was implemented using `djangorestframework-simplejwt`.
 
-## JWT Authentication
+The system uses:
 
-Since MedGuardian handles sensitive patient-related information, authentication was an important part of the backend foundation.
+- Short-lived access tokens
+- Refresh tokens
+- Custom DRF permissions
+- User-specific query filtering
 
-**SimpleJWT** was integrated with Django REST Framework to provide token-based authentication.
+The access token lifetime was configured for 60 minutes, with rotating refresh tokens.
 
-The basic workflow is:
+Custom permission handling such as `IsOwnerOrClinician` was introduced to ensure that users could access only the clinical records they were authorized to view.
+
+The backend also overrides `get_queryset()` where required to enforce strict user-level data isolation.
+
+The authentication flow can be represented as:
 
 ```text
-User Login
-    │
-    ▼
-Authentication
-    │
-    ▼
-JWT Access Token
-    │
-    ▼
+User
+ │
+ ▼
+Login / Authentication
+ │
+ ▼
+JWT Access + Refresh Tokens
+ │
+ ▼
 Authenticated API Request
-    │
-    ▼
-Protected Backend Resource
+ │
+ ▼
+Permission Check
+ │
+ ▼
+User-Specific Clinical Data
 ```
 
-This ensures that protected API endpoints are accessible only to authenticated users.
+### Handling Missing Clinical Information
 
----
+One of the challenges identified during implementation was that clinical risk calculations could fail if important laboratory information was missing.
 
-## User Data Isolation
+For example, a patient might not have a recent creatinine value.
 
-Another important requirement was ensuring that users cannot access another user's patient information.
+Instead of allowing missing values to cause failures in downstream calculations, fallback logic was introduced through properties such as `estimated_crcl`.
 
-Query filtering and custom permission logic were introduced to maintain user-level data isolation.
-
-Conceptually:
-
-```text
-User A
-  │
-  └── Patient Data A ✓
-
-User B
-  │
-  └── Patient Data B ✓
-
-User A ─────X─────> Patient Data B
-User B ─────X─────> Patient Data A
-```
-
-This is particularly important for a healthcare-oriented application where patient information must be handled carefully.
-
----
-
-## Handling Missing Clinical Information
-
-During the backend design, one challenge was handling incomplete patient information.
-
-For example, a patient may have a serum creatinine value available while another clinical parameter such as eGFR may not be available.
-
-The system therefore needed to handle missing values without causing the complete safety evaluation process to fail.
-
-Validation and fallback logic were introduced so that available information could still be processed appropriately.
-
-This helped establish a more robust foundation for the clinical evaluation layer.
+This allowed the system to make a controlled calculation when sufficient information was available and otherwise fall back to the available eGFR value.
 
 ---
 
 ## Challenges Faced
 
-- Designing a backend structure that could support future AI and clinical modules.
-- Deciding which patient and medication parameters should be stored.
-- Handling missing or incomplete clinical information.
-- Implementing authentication for protected healthcare-related APIs.
-- Maintaining proper separation between users and their patient data.
-- Designing safety history so that previous assessments could be compared with future evaluations.
+- Designing relational models capable of representing complex clinical information.
+- Handling optional patient laboratory values without breaking downstream calculations.
+- Representing active and discontinued medications separately.
+- Maintaining historical safety assessments.
+- Designing a proactive alert structure for different types of clinical risks.
+- Implementing authentication while maintaining strict patient data isolation.
+- Providing a renal function fallback when eGFR or other laboratory information was unavailable.
 
 ## Key Takeaways
 
-- Django and Django REST Framework can be used to build a modular backend for healthcare applications.
-- Proper data modeling is important before implementing advanced AI functionality.
-- Patient information and medication information should be represented as separate but connected entities.
-- Maintaining historical safety assessments enables future risk-change detection.
-- JWT authentication provides a structured way to protect API endpoints.
-- User-level data isolation is essential when handling patient-related information.
-- Designing the backend carefully at an early stage makes future features easier to integrate.
+- A healthcare application requires carefully designed clinical data models.
+- Patient information and medication information should be stored as structured data rather than unorganized text.
+- Renal biomarkers such as creatinine and eGFR are important inputs for medication safety.
+- Missing clinical information needs to be handled safely through controlled fallback logic.
+- JWT authentication provides secure stateless authentication for the REST API.
+- User-level query filtering is essential for protecting patient-specific medical data.
+- Separating clinical models into independent entities makes the system easier to extend.
 
 ## Outcome
 
-By the end of the sixteenth day, I successfully understood and implemented the **core backend foundation of MedGuardian AI**.
+By the end of the sixteenth day, the foundational backend structure of MedGuardian was established using **Django 4.2 and Django REST Framework**.
 
-The project now had structured models for patients, medications, safety history, and proactive alerts along with JWT-based authentication and user-level data isolation.
+The core patient, medication, safety history, and proactive alert models were designed, database migrations and seed data were prepared, and JWT authentication with user-level data isolation was implemented.
 
-This foundation prepared the project for the next stage, where **AI-based prescription processing and clinical intelligence providers** would be integrated into the system.
-
+This foundation provided the required backend structure for the next stages of MedGuardian, including **prescription vision processing, clinical medication providers, and automated safety analysis**.
